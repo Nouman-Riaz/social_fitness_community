@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:softech/home/activity_feed.dart';
 import 'package:softech/modules/events/events_view.dart';
 
 class CustomBottomBar extends StatefulWidget {
@@ -10,7 +11,7 @@ class CustomBottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<CustomBottomBar> {
 
-  List<Widget> screens = [Text('home'), Text('search'), EventsView(), Text('add'), Text('live'), Text('profile')];
+  List<Widget> screens = [ActivityPage(), Text('search'), EventsView(), Text('add'), Text('live'), Text('profile')];
   int currentIndex = 0;
 
   @override

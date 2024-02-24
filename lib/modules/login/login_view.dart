@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:softech/modules/bottom_bar/bottom_bar.dart';
 import 'package:softech/modules/login/bloc/login_event.dart';
 
 import '../../main.dart';
@@ -121,13 +122,13 @@ class LoginView extends StatelessWidget {
                             ),
                           );
                         } else if (state.authApiState == APIState.done) {
-                          // Navigator.pushReplacement(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => UsersView(
-                          //         email: emailController.text.trim()),
-                          //   ),
-                          // );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CustomBottomBar(
+                                  // email: emailController.text.trim()),
+                            )),
+                          );
                         }
                       },
                       builder: (context, state) {
@@ -136,10 +137,7 @@ class LoginView extends StatelessWidget {
                             if (!formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter your credentials')));
                             } else {
-                              // context.read<LoginBloc>().login(
-                              //   emailController.text.trim(),
-                              //   passwordController.text.trim(),
-                              // );
+                              context.read<LoginBloc>().add(Login(email: emailController.text, password: passwordController.text));
                             }
                           },
                           backgroundColor: const Color(0xFF1D1A3D),

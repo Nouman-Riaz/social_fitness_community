@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "309048884667",
+    "project_id": "softech-7c214",
+    "storage_bucket": "softech-7c214.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309048884667:android:8e529f3208062ca555589e",
+        "android_client_info": {
+          "package_name": "com.example.secondflutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh1h3mtKzb-odmhOZPq6v0FeW-IEFfKIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309048884667:android:fbf92cf4ae63851555589e",
+        "android_client_info": {
+          "package_name": "com.example.softech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh1h3mtKzb-odmhOZPq6v0FeW-IEFfKIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

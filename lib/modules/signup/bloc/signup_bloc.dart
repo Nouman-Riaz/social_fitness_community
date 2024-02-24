@@ -1,8 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:softech/modules/signup/bloc/signup_event.dart';
 import 'package:softech/modules/signup/bloc/signup_state.dart';
 
+import '../../../utils/utils.dart';
+import '../../auth_manager.dart';
+
 class SignUpBloc extends Bloc<SignupEvent, SignUpBlocState>{
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   SignUpBloc() : super(const SignUpBlocState()){
     on<ShowPasswordEvent>((event, emit){
       showPassword(emit);
@@ -13,8 +19,8 @@ class SignUpBloc extends Bloc<SignupEvent, SignUpBlocState>{
   }
 
 
-  // Future register(String email, String name, String password, String confirmPassword) async {
-  //   emit(state.copyWith(registerApiState: Event.loading));
+  Future register(String email, String password) async {
+    emit(state.copyWith(registerApiState: Event.loading));
   //   try {
   //     await authService.registerUser(email, name, password, confirmPassword);
   //     emit(state.copyWith(registerApiState: Event.done));
@@ -26,7 +32,19 @@ class SignUpBloc extends Bloc<SignupEvent, SignUpBlocState>{
   //     debugPrint('----->>> ${e.toString()}');
   //     updateError(e.toString());
   //   }
-  // }
+    _auth
+        .createUserWithEmailAndPassword(
+        email: email,
+        password: password)
+        .then((value) {
+      Utils().toastMessage('Account created successfully!');
+
+      emit(state.copyWith(registerApiState: Event.done));
+    }).onError((error, stackTrace) {
+      Utils().toastMessage(error.toString());
+      emit(state.copyWith(registerApiState: Event.error));
+    });
+  }
 
   void showPassword(Emitter emit){
     emit(state.copyWith(showPassword: !state.showPassword));
