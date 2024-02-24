@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:softech/modules/personal_information/bloc/personal_info_bloc.dart';
-import 'package:softech/modules/personal_information/bloc/personal_info_events.dart';
-import 'package:softech/modules/personal_information/bloc/personal_info_state.dart';
+import 'package:softech/modules/common/common_button.dart';
+import 'package:softech/modules/personal_information/view/personal_type_view.dart';
+
+import '../../../main.dart';
 
 class PersonalInformationView extends StatelessWidget {
   PersonalInformationView({Key? key}) : super(key: key);
@@ -17,9 +17,6 @@ class PersonalInformationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: SafeArea(child: Container(
         width: double.infinity,
@@ -29,7 +26,7 @@ class PersonalInformationView extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: height * 0.07,
+                height: height * 0.09,
               ),
               const Text('Whats Your Name?', style: TextStyle(
                 fontWeight: FontWeight.w800,
@@ -43,28 +40,31 @@ class PersonalInformationView extends StatelessWidget {
                 fontSize: 13,
               ),),
               SizedBox(
-                height: height * 0.12,
+                height: height * 0.19,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                child: CustomTextField(controller: nameController, hintText: 'Enter Name'),
+                child: CustomTextField(controller: nameController, hintText: 'Enter Name', validator: (val){
+                  if(val!.isEmpty){
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },),
               ),
-              // BlocBuilder<PersonalInfoBloc, PersonalInfoState>(
-              //   builder: (context, state){
-              //     return DropdownButton(
-              //       hint: Text(state.type),
-              //       items: types
-              //       .map((item) => DropdownMenuItem<String>(
-              //     value: item,
-              //     child: Text(
-              //       item,
-              //       overflow: TextOverflow.ellipsis,
-              //     ),
-              //   )).toList(),
-              //     onChanged: (value){
-              //       context.read<PersonalInfoBloc>().add(UpdateType(type: value!));
-              //     },);},
-              // ),
+              const Spacer(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                child: CommonButton(height: height * 0.07, title: 'Next', onTap: (){
+                  if(!formKey.currentState!.validate()){
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter your name')));
+                  } else {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalTypeView()));
+                  }
+                },),
+              ),
+              SizedBox(
+                height: height * 0.08,
+              ),
             ],
           )),
           ),
