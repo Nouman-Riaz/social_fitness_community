@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:softech/modules/bottom_bar/bottom_bar.dart';
 import 'package:softech/modules/login/login_view.dart';
 import 'package:softech/modules/personal_information/view/personal_name_view.dart';
 
@@ -19,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginView()));
+          context, MaterialPageRoute(builder: (context) => CustomBottomBar()));
     });
   }
 
