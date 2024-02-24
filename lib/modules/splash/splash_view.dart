@@ -2,8 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:softech/modules/bottom_bar/bottom_bar.dart';
+import 'package:softech/modules/enthusiast_view/enthusiast_view.dart';
+import 'package:softech/modules/fitness_professional/fitness_professional_view.dart';
 import 'package:softech/modules/login/login_view.dart';
+import 'package:softech/modules/personal_information/view/personal_age_view.dart';
+import 'package:softech/modules/personal_information/view/personal_gender_view.dart';
+import 'package:softech/modules/personal_information/view/personal_height_view.dart';
 import 'package:softech/modules/personal_information/view/personal_name_view.dart';
+import 'package:softech/modules/personal_information/view/personal_type_view.dart';
+import 'package:softech/modules/personal_information/view/personal_weight_view.dart';
 
 import '../../main.dart';
 
@@ -20,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => CustomBottomBar()));
+          context, MaterialPageRoute(builder: (context) => const ProfessionalView()));
     });
   }
 

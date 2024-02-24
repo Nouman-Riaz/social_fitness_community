@@ -10,6 +10,18 @@ class PersonalInfoBloc extends Bloc<PersonalInfoEvent, PersonalInfoState>{
     on<UpdateType>((event, emit){
       updateType(event.type, emit);
     });
+    on<UpdateAge>((event, emit){
+      emit(state.copyWith(age: event.age));
+    });
+    on<UpdateHeight>((event, emit){
+      emit(state.copyWith(height: event.height));
+    });
+    on<UpdateWeight>((event, emit){
+      emit(state.copyWith(weight: event.weight));
+    });
+    on<UpdateGender>((event, emit){
+      emit(state.copyWith(gender: event.gender));
+    });
   }
 
   void updateName(String name, Emitter<PersonalInfoState> emit){

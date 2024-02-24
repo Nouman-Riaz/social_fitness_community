@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:softech/modules/fitness_professional/fitness_professional_view.dart';
+import 'package:softech/modules/personal_information/view/personal_name_view.dart';
 
 import '../../../main.dart';
 import '../../common/common_button.dart';
@@ -69,13 +71,30 @@ class PersonalTypeView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                 child: BlocBuilder<PersonalInfoBloc, PersonalInfoState>(
                   builder: (context, state) {
-                    return CommonButton(height: height * 0.07, title: 'Next', onTap: (){
-                      if(state.type == 'Select'){
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select your type')));
-                      } else {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => const PersonalTypeView()));
-                      }
-                    },);
+                    return CommonButton(
+                        height: height * 0.07,
+                        title: 'Next',
+                        onTap: () {
+                          if (state.type == 'Select') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Please select your type')));
+                          } else {
+                            if (state.type == 'Fitness Enthusiast') {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PersonalInformationView()));
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ProfessionalView()));
+                            }
+                          }
+                        });
                   },
                 ),
               ),

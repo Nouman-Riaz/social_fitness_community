@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:softech/modules/common/common_button.dart';
+import 'package:softech/modules/personal_information/view/personal_gender_view.dart';
 import 'package:softech/modules/personal_information/view/personal_type_view.dart';
 
 import '../../../main.dart';
@@ -58,7 +59,7 @@ class PersonalInformationView extends StatelessWidget {
                   if(!formKey.currentState!.validate()){
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter your name')));
                   } else {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalTypeView()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectGenderPage()));
                   }
                 },),
               ),

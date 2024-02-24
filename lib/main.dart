@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:softech/modules/enthusiast_view/bloc/enthusiast_bloc.dart';
+import 'package:softech/modules/fitness_professional/bloc/professional_bloc.dart';
 import 'package:softech/modules/login/bloc/login_bloc.dart';
 import 'package:softech/modules/personal_information/view/personal_name_view.dart';
 import 'package:softech/modules/signup/bloc/signup_bloc.dart';
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => PersonalInfoBloc()),
         BlocProvider(create: (context) => LoginBloc()),
         BlocProvider(create: (context) => SignUpBloc()),
+        BlocProvider(create: (context) => EnthusiastBloc()),
+        BlocProvider(create: (context) => ProfessionalBloc()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
