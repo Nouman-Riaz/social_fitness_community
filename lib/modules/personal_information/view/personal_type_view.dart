@@ -85,7 +85,7 @@ class PersonalTypeView extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          PersonalInformationView()));
+                                          PersonalInformationView(type: 'Fitness Enthusiast')));
                             } else {
                               Navigator.push(
                                   context,

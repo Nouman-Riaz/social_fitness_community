@@ -35,3 +35,15 @@ class UpdateGender extends PersonalInfoEvent{
 
   UpdateGender({required this.gender});
 }
+
+class UpdateGoal extends PersonalInfoEvent{
+  final String goal;
+
+  UpdateGoal({required this.goal});
+}
+
+class UpdateActivities extends PersonalInfoEvent{
+  final List<String> activities;
+
+  UpdateActivities({required this.activities});
+}

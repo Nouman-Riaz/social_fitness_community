@@ -10,7 +10,9 @@ import 'package:wheel_chooser/wheel_chooser.dart';
 import '../../../main.dart';
 
 class SelectAgePage extends StatefulWidget {
-  const SelectAgePage({Key? key}) : super(key: key);
+  const SelectAgePage({Key? key, required this.name}) : super(key: key);
+
+  final String name;
 
   @override
   State<SelectAgePage> createState() => _SelectAgePageState();
@@ -57,7 +59,7 @@ class _SelectAgePageState extends State<SelectAgePage> {
                 ),
               ),
               CommonButton(height: height * 0.07, title: 'Next', onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SelectWeightPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SelectWeightPage(name: widget.name)));
               }),
             ],
           ),

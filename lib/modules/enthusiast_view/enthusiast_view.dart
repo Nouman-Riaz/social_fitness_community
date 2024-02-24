@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:softech/main.dart';
+import 'package:softech/models/enthusiast_model.dart';
 import 'package:softech/modules/common/common_button.dart';
 import 'package:softech/modules/enthusiast_view/bloc/enthusiast_bloc.dart';
 import 'package:softech/modules/enthusiast_view/bloc/enthusiast_event.dart';
 import 'package:softech/modules/enthusiast_view/bloc/enthusiast_state.dart';
+import 'package:softech/modules/login/login_view.dart';
+import 'package:softech/modules/personal_information/bloc/personal_info_bloc.dart';
+import 'package:softech/modules/personal_information/bloc/personal_info_state.dart';
+
+import '../personal_information/bloc/personal_info_events.dart';
 
 class EnthusiastView extends StatelessWidget {
-  EnthusiastView({Key? key}) : super(key: key);
+  EnthusiastView({Key? key, required this.name}) : super(key: key);
+
+  final String name;
 
   final List<String> goals = [
     'Lose Weight',
@@ -24,6 +32,8 @@ class EnthusiastView extends StatelessWidget {
     'Cycling',
     'Swimming',
   ];
+
+  List<bool> indexes = [];
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +72,7 @@ class EnthusiastView extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         context.read<EnthusiastBloc>().add(UpdateIndexEvent(i));
+                        context.read<PersonalInfoBloc>().add(UpdateGoal(goal: goals[i]));
                       },
                       child: FitnessGoalTile(
                           isSelected: state.goalsSelectedIndex == i,
@@ -84,7 +95,7 @@ class EnthusiastView extends StatelessWidget {
                       builder: (context, state) {
                         return GestureDetector(
                           onTap: () {
-                            List<bool> indexes = List.from(state.activitiesSelectedIndex);
+                            indexes = List.from(state.activitiesSelectedIndex);
                             indexes[i] = !indexes[i];
                             context.read<EnthusiastBloc>().add(UpdateActivitiesEvent(indexes));
                           },
@@ -97,14 +108,18 @@ class EnthusiastView extends StatelessWidget {
                 SizedBox(
                   height: height * 0.04,
                 ),
-                BlocBuilder<EnthusiastBloc, EnthusiastState>(builder: (context, state){
+                BlocBuilder<PersonalInfoBloc, PersonalInfoState>(builder: (context, state){
                   return CommonButton(height: height * 0.07, title: 'Next', onTap: (){
-                    List<bool> indexes = List.from(state.activitiesSelectedIndex);
-                    final isAllFalse = indexes.every((bool index) => index == false);
-                    if(state.goalsSelectedIndex == -1 || isAllFalse){
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select a fitness goal and activity')));
-                      return;
+                    List<String> selectedGoals = [];
+                    for (int i = 0; i < indexes.length; i++) {
+                      if (indexes[i]) {
+                        selectedGoals.add(fitnessActivities[i]);
+                      }
                     }
+
+                      final enthusiast = EnthusiastModel(name: name, type: state.type, age: state.age, height: state.height, weight: state.weight, location: '', following: [], fitnessGoal: state.goal, preferredActivities: selectedGoals);
+                      context.read<EnthusiastBloc>().add(StoreDataEvent(model: enthusiast));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView()));
                   });
                 }),
                 SizedBox(

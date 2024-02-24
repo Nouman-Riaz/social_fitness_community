@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:softech/modules/personal_information/bloc/personal_info_events.dart';
 import 'package:softech/modules/personal_information/view/personal_height_view.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
 import '../../../main.dart';
 import '../../common/common_button.dart';
+import '../bloc/personal_info_bloc.dart';
 
 class SelectWeightPage extends StatelessWidget {
-  SelectWeightPage({Key? key}) : super(key: key);
+  SelectWeightPage({Key? key, required this.name}) : super(key: key);
+
+  final String name;
 
   FixedExtentScrollController fixedExtentScrollController =
   FixedExtentScrollController();
@@ -40,7 +45,7 @@ class SelectWeightPage extends StatelessWidget {
                   return WheelChoice(value: weight, title: '$weight kg');
                 }),
                 onChoiceChanged: (s) {
-                  //
+                  context.read<PersonalInfoBloc>().add(UpdateWeight(weight: int.parse(s.toString())));
                 },
                 startPosition: 40,
                 selectTextStyle: const TextStyle(color: Colors.purple),
@@ -48,7 +53,7 @@ class SelectWeightPage extends StatelessWidget {
               ),
             ),
             CommonButton(height: height * 0.07, title: 'Next', onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SelectHeightPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SelectHeightPage(name: name)));
             },)
           ],
         ),

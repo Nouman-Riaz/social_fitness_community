@@ -20,4 +20,18 @@ class EnthusiastModel {
     required this.fitnessGoal,
     required this.preferredActivities,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'type': type,
+      'age': age,
+      'height': height,
+      'weight': weight,
+      'location': location,
+      'following': following,
+      'fitnessGoal': fitnessGoal,
+      'preferredActivities': preferredActivities,
+    };
+  }
 }

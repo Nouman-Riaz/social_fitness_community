@@ -8,7 +8,9 @@ import 'package:softech/modules/personal_information/view/personal_type_view.dar
 import '../../../main.dart';
 
 class PersonalInformationView extends StatelessWidget {
-  PersonalInformationView({Key? key}) : super(key: key);
+  PersonalInformationView({Key? key, required this.type}) : super(key: key);
+
+  final String type;
 
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -59,7 +61,7 @@ class PersonalInformationView extends StatelessWidget {
                   if(!formKey.currentState!.validate()){
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter your name')));
                   } else {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectGenderPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectGenderPage(name: nameController.text)));
                   }
                 },),
               ),

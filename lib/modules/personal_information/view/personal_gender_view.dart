@@ -9,7 +9,9 @@ import '../../common/common_button.dart';
 import '../bloc/personal_info_state.dart';
 
 class SelectGenderPage extends StatefulWidget {
-  const SelectGenderPage({Key? key}) : super(key: key);
+  const SelectGenderPage({Key? key, required this.name}) : super(key: key);
+
+  final String name;
 
   @override
   State<SelectGenderPage> createState() => _SelectGenderPageState();
@@ -81,7 +83,7 @@ class _SelectGenderPageState extends State<SelectGenderPage> {
                   if(state.gender == ''){
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select your gender')));
                   } else {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectAgePage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectAgePage(name: widget.name)));
                   }
                 },);
               },
