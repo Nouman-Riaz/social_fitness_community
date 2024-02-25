@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:softech/modules/login/bloc/login_bloc.dart';
 import 'package:softech/modules/personal_information/view/personal_name_view.dart';
+import 'package:softech/modules/profile/bloc/profile_bloc.dart';
 import 'package:softech/modules/signup/bloc/signup_bloc.dart';
 import 'package:softech/modules/splash/splash_view.dart';
 
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SignUpBloc()),
         BlocProvider(create: (context) => EnthusiastBloc()),
         BlocProvider(create: (context) => ProfessionalBloc()),
+        BlocProvider(create: (context) => ProfileBloc()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

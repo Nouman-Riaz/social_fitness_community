@@ -9,9 +9,10 @@ import '../../common/common_button.dart';
 import '../bloc/personal_info_bloc.dart';
 
 class SelectWeightPage extends StatelessWidget {
-  SelectWeightPage({Key? key, required this.name}) : super(key: key);
+  SelectWeightPage({Key? key, required this.name, required this.email}) : super(key: key);
 
   final String name;
+  final String email;
 
   FixedExtentScrollController fixedExtentScrollController =
   FixedExtentScrollController();
@@ -53,7 +54,7 @@ class SelectWeightPage extends StatelessWidget {
               ),
             ),
             CommonButton(height: height * 0.07, title: 'Next', onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SelectHeightPage(name: name)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SelectHeightPage(name: name, email: email)));
             },)
           ],
         ),

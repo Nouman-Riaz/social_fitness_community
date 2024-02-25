@@ -10,9 +10,10 @@ import '../bloc/personal_info_events.dart';
 import '../bloc/personal_info_state.dart';
 
 class PersonalTypeView extends StatelessWidget {
-  PersonalTypeView({Key? key}) : super(key: key);
+  PersonalTypeView({Key? key, required this.email}) : super(key: key);
 
   final types = ['Fitness Enthusiast', 'Fitness Professional'];
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ class PersonalTypeView extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          PersonalInformationView(type: 'Fitness Enthusiast')));
+                                          PersonalInformationView(type: 'Fitness Enthusiast', email: email)));
                             } else {
                               Navigator.push(
                                   context,

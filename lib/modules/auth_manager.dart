@@ -33,6 +33,20 @@ class AuthManager extends ChangeNotifier {
     isLoggedIn = true;
     notifyListeners();
   }
+  Future<void> setEmail(String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', email);
+    isLoggedIn = true;
+    notifyListeners();
+  }
+
+  Future<String?> getEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final email = prefs.getString('email');
+    isLoggedIn = true;
+    notifyListeners();
+    return email;
+  }
 
   Future<void> logout() async {
     FirebaseAuth auth = FirebaseAuth.instance;

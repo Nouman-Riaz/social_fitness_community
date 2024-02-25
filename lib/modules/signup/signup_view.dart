@@ -179,7 +179,7 @@ class SignUpView extends StatelessWidget {
                       } else if (state.registerApiState == Event.done) {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => PersonalTypeView()),
+                          MaterialPageRoute(builder: (context) => PersonalTypeView(email: emailController.text,)),
                         );
                       }
                     }, builder: (context, state) {

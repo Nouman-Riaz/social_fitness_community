@@ -24,7 +24,7 @@ class EnthusiastBloc extends Bloc<EnthusiastEvent, EnthusiastState>{
     emit(state.copyWith(apiState: APIState.loading));
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     debugPrint("Name ----->>>> ${model.name}");
-    await firestore.collection('enthusiasts').doc(model.name).set(model.toJson());
+    await firestore.collection('enthusiasts').doc(model.email).set(model.toJson());
     emit(state.copyWith(apiState: APIState.done));
   }
 }

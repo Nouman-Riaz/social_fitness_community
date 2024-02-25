@@ -9,9 +9,10 @@ import '../../../main.dart';
 import '../../common/common_button.dart';
 
 class SelectHeightPage extends StatelessWidget {
-  SelectHeightPage({Key? key, required this.name}) : super(key: key);
+  SelectHeightPage({Key? key, required this.name, required this.email}) : super(key: key);
 
   final String name;
+  final String email;
 
   FixedExtentScrollController fixedExtentScrollController =
   FixedExtentScrollController();
@@ -53,7 +54,7 @@ class SelectHeightPage extends StatelessWidget {
               ),
             ),
             CommonButton(height: height * 0.07, title: 'Next', onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EnthusiastView(name: name)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => EnthusiastView(name: name, email: email)));
             },)
           ],
         ),
