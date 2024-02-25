@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:softech/modules/personal_information/view/personal_type_view.dart';
 import 'package:softech/modules/signup/bloc/signup_event.dart';
 
 import '../../main.dart';
@@ -178,7 +179,7 @@ class SignUpView extends StatelessWidget {
                       } else if (state.registerApiState == Event.done) {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginView()),
+                          MaterialPageRoute(builder: (context) => PersonalTypeView(email: emailController.text,)),
                         );
                       }
                     }, builder: (context, state) {
@@ -190,11 +191,11 @@ class SignUpView extends StatelessWidget {
                                   const SnackBar(
                                       content: Text('Enter your credentials')));
                             } else {
-                              //   context.read<SignUpBloc>().register(
-                              //       emailController.text,
-                              //       nameController.text,
-                              //       passwordController.text,
-                              //       confirmPasswordController.text);
+                                context.read<SignUpBloc>().register(
+                                    emailController.text,
+                                    // nameController.text,
+                                    passwordController.text
+                                    );
                             }
                           },
                           child: Center(

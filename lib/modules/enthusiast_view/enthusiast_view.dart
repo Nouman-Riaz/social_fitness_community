@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:softech/main.dart';
+import 'package:softech/models/enthusiast_model.dart';
 import 'package:softech/modules/common/common_button.dart';
 import 'package:softech/modules/enthusiast_view/bloc/enthusiast_bloc.dart';
 import 'package:softech/modules/enthusiast_view/bloc/enthusiast_event.dart';
 import 'package:softech/modules/enthusiast_view/bloc/enthusiast_state.dart';
+import 'package:softech/modules/login/login_view.dart';
+import 'package:softech/modules/personal_information/bloc/personal_info_bloc.dart';
+import 'package:softech/modules/personal_information/bloc/personal_info_state.dart';
+
+import '../personal_information/bloc/personal_info_events.dart';
 
 class EnthusiastView extends StatelessWidget {
-  EnthusiastView({Key? key}) : super(key: key);
+  EnthusiastView({Key? key, required this.name, required this.email})
+      : super(key: key);
+
+  final String name;
+  final String email;
 
   final List<String> goals = [
     'Lose Weight',
@@ -24,6 +36,8 @@ class EnthusiastView extends StatelessWidget {
     'Cycling',
     'Swimming',
   ];
+
+  List<bool> indexes = [];
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +76,9 @@ class EnthusiastView extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         context.read<EnthusiastBloc>().add(UpdateIndexEvent(i));
+                        context
+                            .read<PersonalInfoBloc>()
+                            .add(UpdateGoal(goal: goals[i]));
                       },
                       child: FitnessGoalTile(
                           isSelected: state.goalsSelectedIndex == i,
@@ -82,30 +99,75 @@ class EnthusiastView extends StatelessWidget {
                 for (int i = 0; i < 5; i++) ...[
                   BlocBuilder<EnthusiastBloc, EnthusiastState>(
                       builder: (context, state) {
-                        return GestureDetector(
-                          onTap: () {
-                            List<bool> indexes = List.from(state.activitiesSelectedIndex);
-                            indexes[i] = !indexes[i];
-                            context.read<EnthusiastBloc>().add(UpdateActivitiesEvent(indexes));
-                          },
-                          child: FitnessGoalTile(
-                              isSelected: state.activitiesSelectedIndex[i],
-                              title: fitnessActivities[i]),
-                        );
-                      })
+                    return GestureDetector(
+                      onTap: () {
+                        indexes = List.from(state.activitiesSelectedIndex);
+                        indexes[i] = !indexes[i];
+                        context
+                            .read<EnthusiastBloc>()
+                            .add(UpdateActivitiesEvent(indexes));
+                      },
+                      child: FitnessGoalTile(
+                          isSelected: state.activitiesSelectedIndex[i],
+                          title: fitnessActivities[i]),
+                    );
+                  })
                 ],
                 SizedBox(
                   height: height * 0.04,
                 ),
-                BlocBuilder<EnthusiastBloc, EnthusiastState>(builder: (context, state){
-                  return CommonButton(height: height * 0.07, title: 'Next', onTap: (){
-                    List<bool> indexes = List.from(state.activitiesSelectedIndex);
-                    final isAllFalse = indexes.every((bool index) => index == false);
-                    if(state.goalsSelectedIndex == -1 || isAllFalse){
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select a fitness goal and activity')));
-                      return;
-                    }
-                  });
+                BlocBuilder<PersonalInfoBloc, PersonalInfoState>(
+                    builder: (context, state) {
+                  return CommonButton(
+                      height: height * 0.07,
+                      title: 'Next',
+                      onTap: () async {
+                        List<String> selectedGoals = [];
+                        for (int i = 0; i < indexes.length; i++) {
+                          if (indexes[i]) {
+                            selectedGoals.add(fitnessActivities[i]);
+                          }
+                        }
+
+                        await Geolocator.checkPermission();
+                        await Geolocator.requestPermission();
+                        final Position position =
+                            await Geolocator.getCurrentPosition(
+                          desiredAccuracy: LocationAccuracy.low,
+                        );
+
+                        List<Placemark> placeMarks =
+                            await placemarkFromCoordinates(
+                                position.latitude, position.longitude);
+
+                        String address = '';
+
+                        if (placeMarks.isNotEmpty) {
+                          Placemark place = placeMarks[0];
+                          address =
+                              "${place.street}, ${place.locality}, ${place.postalCode}, ${place.country}";
+                        } else {
+                          address = '';
+                        }
+                        final enthusiast = EnthusiastModel(
+                            email: email,
+                            name: name,
+                            type: state.type,
+                            age: state.age,
+                            height: state.height,
+                            weight: state.weight,
+                            location: address,
+                            following: [],
+                            fitnessGoal: state.goal,
+                            preferredActivities: selectedGoals);
+                        context
+                            .read<EnthusiastBloc>()
+                            .add(StoreDataEvent(model: enthusiast));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginView()));
+                      });
                 }),
                 SizedBox(
                   height: height * 0.03,

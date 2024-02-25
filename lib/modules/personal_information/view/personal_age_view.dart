@@ -6,10 +6,14 @@ import 'package:softech/modules/personal_information/bloc/personal_info_events.d
 import 'package:softech/modules/personal_information/view/personal_weight_view.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
+
 import '../../../main.dart';
 
 class SelectAgePage extends StatefulWidget {
-  const SelectAgePage({Key? key}) : super(key: key);
+  const SelectAgePage({Key? key, required this.name, required this.email}) : super(key: key);
+
+  final String name;
+  final String email;
 
   @override
   State<SelectAgePage> createState() => _SelectAgePageState();
@@ -56,7 +60,7 @@ class _SelectAgePageState extends State<SelectAgePage> {
                 ),
               ),
               CommonButton(height: height * 0.07, title: 'Next', onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SelectWeightPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SelectWeightPage(name: widget.name, email: widget.email)));
               }),
             ],
           ),

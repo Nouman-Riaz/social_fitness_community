@@ -22,6 +22,12 @@ class PersonalInfoBloc extends Bloc<PersonalInfoEvent, PersonalInfoState>{
     on<UpdateGender>((event, emit){
       emit(state.copyWith(gender: event.gender));
     });
+    on<UpdateGoal>((event, emit){
+      emit(state.copyWith(goal: event.goal));
+    });
+    on<UpdateActivities>((event, emit){
+      emit(state.copyWith(activities: event.activities));
+    });
   }
 
   void updateName(String name, Emitter<PersonalInfoState> emit){

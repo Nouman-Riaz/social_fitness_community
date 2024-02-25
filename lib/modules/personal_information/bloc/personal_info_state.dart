@@ -9,10 +9,12 @@ class PersonalInfoState extends Equatable {
     this.age = 15,
     this.height = 100,
     this.weight = 65,
+    this.goal = '',
+    this.activities = const [],
 });
 
   @override
-  List<Object?> get props => [name, type, age, gender, height, weight];
+  List<Object?> get props => [name, type, age, gender, height, weight, goal, activities];
 
   final String name;
   final String type;
@@ -20,14 +22,18 @@ class PersonalInfoState extends Equatable {
   final int age;
   final int height;
   final int weight;
+  final String goal;
+  final List<String> activities;
 
   PersonalInfoState copyWith({
     String? name,
     String? type,
     String? gender,
+    String? goal,
     int? age,
     int? height,
     int? weight,
+    List<String>? activities
   }) {
     return PersonalInfoState(
       name: name ?? this.name,
@@ -36,6 +42,8 @@ class PersonalInfoState extends Equatable {
       age: age ?? this.age,
       height: height ?? this.height,
       weight: weight ?? this.weight,
+      goal: goal ?? this.goal,
+      activities: activities ?? this.activities,
     );
   }
 

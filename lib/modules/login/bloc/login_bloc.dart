@@ -1,12 +1,20 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
+import '../../../utils/utils.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginBlocState> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   LoginBloc() : super(const LoginBlocState()){
     on<ShowPasswordEvent>((event, emit) {
       showPassword(emit);
+    });
+    on<Login>((event, emit) async {
+      await login(event.email, event.password, emit);
     });
   }
 
@@ -14,21 +22,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginBlocState> {
   //   await authService.signOut();
   // }
 
-  // Future login(String email, String password) async {
-  //   emit(state.copyWith(authApiState: APIState.loading));
-  //   String? token = await authService.getFCMToken();
-  //   try {
-  //     await authService.signInUser(email, password);
-  //     await authService.updateUser(token!, email, 'online');
-  //     emit(state.copyWith(authApiState: APIState.done));
-  //     emailId = email;
-  //   } on FirebaseException catch(e) {
-  //     debugPrint('----->>> ${e.toString()}');
-  //     updateError(e.code);
-  //   } catch(e){
-  //     updateError(e.toString());
-  //   }
-  // }
+  Future login(String email, String password, Emitter emit) async {
+    emit(state.copyWith(authApiState: APIState.loading));
+    await _auth
+        .signInWithEmailAndPassword(
+        email: email,
+        password: password)
+        .then((value) {
+      Utils().toastMessage(value.user!.email.toString());
+      emit(state.copyWith(authApiState: APIState.done));
+    }).onError((error, stackTrace) {
+      emit(state.copyWith(authApiState: APIState.error));
+      Utils().toastMessage(error.toString());
+    });
+  }
 
   void updateError(String exception, Emitter emit) {
     switch (exception) {

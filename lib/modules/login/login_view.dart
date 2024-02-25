@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:softech/modules/bottom_bar/bottom_bar.dart';
 import 'package:softech/modules/login/bloc/login_event.dart';
 
 import '../../main.dart';
+import '../auth_manager.dart';
 import '../signup/signup_view.dart';
 import 'bloc/login_bloc.dart';
 import 'bloc/login_state.dart';
@@ -121,13 +124,11 @@ class LoginView extends StatelessWidget {
                             ),
                           );
                         } else if (state.authApiState == APIState.done) {
-                          // Navigator.pushReplacement(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => UsersView(
-                          //         email: emailController.text.trim()),
-                          //   ),
-                          // );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CustomBottomBar()),
+                          );
                         }
                       },
                       builder: (context, state) {
@@ -136,10 +137,9 @@ class LoginView extends StatelessWidget {
                             if (!formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter your credentials')));
                             } else {
-                              // context.read<LoginBloc>().login(
-                              //   emailController.text.trim(),
-                              //   passwordController.text.trim(),
-                              // );
+                              final authManager = Provider.of<AuthManager>(context, listen: false);
+                              authManager.setEmail(emailController.text);
+                              context.read<LoginBloc>().add(Login(email: emailController.text, password: passwordController.text));
                             }
                           },
                           backgroundColor: const Color(0xFF1D1A3D),
